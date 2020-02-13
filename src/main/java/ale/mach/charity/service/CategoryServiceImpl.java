@@ -19,4 +19,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Category findById(int id) {
+        Category invalidCategory = new Category();
+        invalidCategory.setId(-1);
+        invalidCategory.setName("invalid id, category does not exist");
+        return categoryRepository.findById(id).orElse(invalidCategory);
+    }
 }

@@ -18,4 +18,12 @@ public class InstitutionServiceImpl implements InstitutionService {
     public List<Institution> findAll() {
         return institutionRepository.findAll();
     }
+
+    @Override
+    public Institution findById(int id) {
+        Institution invalidInstitution = new Institution();
+        invalidInstitution.setId(-1);
+        invalidInstitution.setName("invalid id, institution does not exist");
+        return institutionRepository.findById(id).orElse(invalidInstitution);
+    }
 }
