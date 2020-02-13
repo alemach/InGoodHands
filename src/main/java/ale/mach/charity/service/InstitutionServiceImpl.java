@@ -2,6 +2,8 @@ package ale.mach.charity.service;
 
 import ale.mach.charity.model.Institution;
 import ale.mach.charity.repository.InstitutionRepository;
+import javassist.NotFoundException;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +21,9 @@ public class InstitutionServiceImpl implements InstitutionService {
         return institutionRepository.findAll();
     }
 
+    @SneakyThrows
     @Override
     public Institution findById(int id) {
-        Institution invalidInstitution = new Institution();
-        invalidInstitution.setId(-1);
-        invalidInstitution.setName("invalid id, institution does not exist");
-        return institutionRepository.findById(id).orElse(invalidInstitution);
+        return institutionRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Institution with id = " + id + "does not exist"));
     }
 }

@@ -2,6 +2,7 @@ package ale.mach.charity.service;
 
 import ale.mach.charity.model.Institution;
 import ale.mach.charity.repository.InstitutionRepository;
+import javassist.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ public class InstitutionServiceImplTest {
     private InstitutionService institutionService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         institutionRepository = mock(InstitutionRepository.class);
         institutionService = new InstitutionServiceImpl(institutionRepository);
     }
@@ -39,5 +40,10 @@ public class InstitutionServiceImplTest {
         //then
         assertNotNull(result);
         assertEquals(numberOfInstitutions, result.size());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void givenWrongId_whenFindById_thenThrowException() throws NotFoundException {
+        institutionService.findById(999);
     }
 }

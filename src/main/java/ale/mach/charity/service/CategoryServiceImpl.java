@@ -2,6 +2,7 @@ package ale.mach.charity.service;
 
 import ale.mach.charity.model.Category;
 import ale.mach.charity.repository.CategoryRepository;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(int id) {
-        Category invalidCategory = new Category();
-        invalidCategory.setId(-1);
-        invalidCategory.setName("invalid id, category does not exist");
-        return categoryRepository.findById(id).orElse(invalidCategory);
+    public Category findById(int id) throws NotFoundException {
+        return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Category with id = " + id + "does not exist"));
     }
 }
