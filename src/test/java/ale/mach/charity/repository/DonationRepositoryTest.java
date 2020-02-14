@@ -47,7 +47,7 @@ public class DonationRepositoryTest {
         }
 
         //when
-        int result = donationRepository.sumOfAllQuantity();
+        int result = donationRepository.sumOfAllQuantity().orElse(0);
 
         //then
         assertEquals(result, sum);

@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +39,7 @@ public class DonationServiceImplTest {
     @Test
     public void WhenGetBagsTotalAmount_thenReturnSumOfQuantitiesOfAllDonations() {
         //given
-        when(donationRepository.sumOfAllQuantity()).thenReturn(NUMBER_OF_DONATIONS * NUMBER_OF_BAGS_PER_DONATION);
+        when(donationRepository.sumOfAllQuantity()).thenReturn(Optional.of(NUMBER_OF_DONATIONS * NUMBER_OF_BAGS_PER_DONATION));
         //when
         int result = donationService.getBagsTotalAmount();
         //then

@@ -18,6 +18,6 @@ public class DonationServiceImpl implements DonationService {
 
     @Override
     public int getBagsTotalAmount() {
-        return donationRepository.sumOfAllQuantity();
+        return donationRepository.sumOfAllQuantity().orElse(0);
     }
 }
