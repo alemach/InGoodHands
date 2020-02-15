@@ -1478,10 +1478,10 @@ header#stickyHeader{
 
 /* line 83, scss/modules/homepage-sections/_help.scss */
 .help--slides-items .col .subtitle {
-  font-family: 'Merriweather', serif;
-  font-weight: 300;
-  font-style: light;
-  font-size: 1.2rem;
+    font-family: 'Merriweather', serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 1.2rem;
 }
 
 /* line 88, scss/modules/homepage-sections/_help.scss */

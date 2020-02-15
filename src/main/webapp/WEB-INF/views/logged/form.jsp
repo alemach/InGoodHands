@@ -1,23 +1,31 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%--
   Created by IntelliJ IDEA.
   User: alemach
-  Date: 12.02.2020
-  Time: 20:24
+  Date: 15.02.2020
+  Time: 17:08
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Podaruj</title>
+</head>
+<body>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Podaruj</title>
+    <title>Document</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
+
 <%@include file="header-logged.jsp" %>
+
 <section class="form--steps">
     <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -40,39 +48,37 @@
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
+        <%--@elvariable id="donation" type="donation"--%>
         <form:form modelAttribute="donation" method="post">
 
-        <!-- STEP 1: class .active is switching steps -->
-        <div data-step="1" class="active">
-            <h3>Zaznacz co chcesz oddać:</h3>
+            <!-- STEP 1: class .active is switching steps -->
+            <div data-step="1" class="active">
+                <h3>Zaznacz co chcesz oddać:</h3>
+                <c:forEach items="${categories}" var="category">
 
-            <c:forEach items="${categories}" var="category">
-            <div class="form-group form-group--checkbox">
-                <label>
-                    <form:checkbox path="categories" value="${category.id}"/>
-                    <span class="checkbox"></span>
-                    <span class="description"><c:out value="${category.name}"/></span>
-                </label>
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <form:checkbox path="categories" value="${category.id}"/>
+
+                            <span class="checkbox"></span>
+                            <span class="description">
+                            <c:out value="${category.name}"/>
+                        </span>
+                        </label>
+                    </div>
+                </c:forEach>
+
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
             </div>
-                <%--                    <div class="form-group form-group--checkbox">--%>
-                <%--                        <label>--%>
-                <%--                            <input type="checkbox" name="categories" value="clothes-to-use"/>--%>
-                <%--                            <span class="checkbox"></span>--%>
-                <%--                            <span class="description">ubrania, które nadają się do ponownego użycia</span>--%>
-                <%--                        </label>--%>
-        </div>
-        </c:forEach>
 
-        <div class="form-group form-group--buttons">
-            <button type="button" class="btn next-step">Dalej</button>
-        </div>
-    </div>
+            <!-- STEP 2 -->
+            <div data-step="2">
+                <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
 
-    <!-- STEP 2 -->
-    <div data-step="2">
-        <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
-
-        <div class="form-group form-group--inline">
+                <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
                         <form:input path="quantity" type="number" step="1" min="1"/>
@@ -83,78 +89,78 @@
                     <button type="button" class="btn prev-step">Wstecz</button>
                     <button type="button" class="btn next-step">Dalej</button>
                 </div>
-    </div>
+            </div>
 
 
-    <!-- STEP 4 -->
-    <div data-step="3">
-        <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-            <%--                <form:radiobutton path="institution" items="${institutions}" itemLabel="name" itemValue="id"/>--%>
+            <!-- STEP 4 -->
+            <div data-step="3">
+                <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-        <c:forEach items="${institutions}" var="institution">
-            <div class="form-group form-group--checkbox">
-                <label>
-                    <form:radiobutton path="institution" value="${institution.id}"/>
-                    <span class="checkbox radio"></span>
-                    <span class="description">
+                <c:forEach items="${institutions}" var="institution">
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <form:radiobutton path="institution" value="${institution.id}"/>
+                            <span class="checkbox radio"></span>
+                            <span class="description">
                                 <div class="title"><c:out value="${institution.name}"/></div>
                                 <div class="subtitle"><c:out value="${institution.description}"/></div>
                             </span>
-                </label>
-            </div>
-        </c:forEach>
-        <div class="form-group form-group--buttons">
-            <button type="button" class="btn prev-step">Wstecz</button>
-            <button type="button" class="btn next-step">Dalej</button>
-        </div>
-    </div>
+                        </label>
+                    </div>
+                </c:forEach>
 
-    <!-- STEP 5 -->
-    <div data-step="4">
-        <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
-
-        <div class="form-section form-section--columns">
-            <div class="form-section--column">
-                <h4>Adres odbioru</h4>
-                <div class="form-group form-group--inline">
-                    <label> Ulica <form:input path="street"/> </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                    <label> Miasto <form:input path="city"/></label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                    <label>
-                        Kod pocztowy <form:input path="zipCode"/>
-                    </label>
-                </div>
-
-                    <%--                        <div class="form-group form-group--inline">--%>
-                    <%--                            <label>--%>
-                    <%--                                Numer telefonu <input type="phone" name="phone" />--%>
-                    <%--                            </label>--%>
-                    <%--                        </div>--%>
-            </div>
-
-            <div class="form-section--column">
-                <h4>Termin odbioru</h4>
-                <div class="form-group form-group--inline">
-                    <label> Data <form:input type="date" path="pickUpDate"/> </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                    <label> Godzina <form:input path="pickUpTime" type="time"/> </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                    <label>
-                        Uwagi dla kuriera
-                        <form:textarea path="pickUpComment" rows="5"></form:textarea>
-                    </label>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
-        </div>
+
+            <!-- STEP 5 -->
+            <div data-step="4">
+                <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Ulica <form:input path="street"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Miasto <form:input path="city"/></label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Kod pocztowy <form:input path="zipCode"/>
+                            </label>
+                        </div>
+
+                            <%--                        <div class="form-group form-group--inline">--%>
+                            <%--                            <label>--%>
+                            <%--                                Numer telefonu <input type="phone" name="phone" />--%>
+                            <%--                            </label>--%>
+                            <%--                        </div>--%>
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Data <form:input type="date" path="pickUpDate"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Godzina <form:input path="pickUpTime" type="time"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Uwagi dla kuriera
+                                <form:textarea path="pickUpComment" rows="5"></form:textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
                     <button type="button" class="btn next-step">Dalej</button>
@@ -171,16 +177,16 @@
                         <ul>
                             <li>
                                 <span class="icon icon-bag"></span>
-                                <span class="summary--text"
-                                >4 worki ubrań w dobrym stanie dla dzieci</span
-                                >
+                                <span class="summary--text">
+                                    4 worki ubrań w dobrym stanie dla dzieci
+                                </span>
                             </li>
 
                             <li>
                                 <span class="icon icon-hand"></span>
-                                <span class="summary--text"
-                                >Dla fundacji "Mam marzenie" w Warszawie</span
-                                >
+                                <span class="summary--text">
+                                    Dla fundacji "Mam marzenie" w Warszawie
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -212,11 +218,15 @@
                     <button type="submit" class="btn">Potwierdzam</button>
                 </div>
             </div>
-        <%--        </form>--%>
-    </form:form>
+        </form:form>
     </div>
 </section>
+
 <%@include file="/WEB-INF/views/footer.jsp" %>
-<script src="<c:url value="/resources/js/app.js"/> "></script>
+<script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"/>"></script>
+<script src="<c:url value="/resources/js/app.js"/>"></script>
+</body>
+</html>
+
 </body>
 </html>
