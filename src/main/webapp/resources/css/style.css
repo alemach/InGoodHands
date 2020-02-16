@@ -1837,3 +1837,8 @@ footer .bottom-line--icons a img {
   top: 0;
   width: 100%
 }
+
+.form-error {
+    color: red;
+    font-size: large;
+}

@@ -105,6 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
      * Switching between form steps
      */
     class FormSteps {
+        bagsNo;
+        categories;
+        institutions;
+
         constructor(form) {
             this.$form = form;
             this.$next = form.querySelectorAll(".next-step");
@@ -125,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
         init() {
             this.events();
             this.updateForm();
+            this.validateSlide();
         }
 
         /**
@@ -135,8 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$next.forEach(btn => {
                 btn.addEventListener("click", e => {
                     e.preventDefault();
-                    this.currentStep++;
-                    this.updateForm();
+                    this.validateSlide(this.currentStep);
                 });
             });
 
@@ -151,6 +155,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Form submit
             this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+        }
+
+        validateSlide(currentStep) {
+            switch (currentStep) {
+                case 1: {
+                    let checkedBoxes = $(this.slides[currentStep + 3]).find("input:checked");
+                    if (checkedBoxes.length > 0) {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("");
+                        this.categories = checkedBoxes.siblings("span.description").text().replace(/ /g, "").split(/\s/);
+                        this.categories = this.categories.filter(string => {
+                            return string !== "";
+                        }).join(", ");
+                        this.currentStep++;
+                        this.updateForm();
+                    } else {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("Zaznacz przynajmniej jedną kategorię.");
+                    }
+                }
+                    break;
+                case 2: {
+                    this.bagsNo = $(this.slides[currentStep + 3]).find("input").val();
+                    if (this.bagsNo > 0) {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("");
+                        this.currentStep++;
+                        this.updateForm();
+                    } else {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("Przygotuj minimum jeden worek.");
+                    }
+                }
+
+                    break;
+                case 3: {
+                    this.institutions = $(this.slides[currentStep + 3])
+                        .find("input:checked")
+                        .siblings("span.description")
+                        .find("div.title").text().trim();
+                    if (this.institutions !== "") {
+                        console.log(this.institutions);
+                        $(this.slides[currentStep + 3]).find(".form-error").text("");
+                        this.currentStep++;
+                        this.updateForm();
+                    } else {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("Wybierz instytucję, którą chcesz obdarować.");
+                    }
+                }
+
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+
+            }
         }
 
         /**
