@@ -107,7 +107,15 @@ document.addEventListener("DOMContentLoaded", function () {
     class FormSteps {
         bagsNo;
         categories;
-        institutions;
+        institution;
+        pickUpDetails = {
+            street: "",
+            city: "",
+            zipCode: "",
+            date: "",
+            time: "",
+            comment: "Brak uwag"
+        };
 
         constructor(form) {
             this.$form = form;
@@ -130,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.events();
             this.updateForm();
             this.validateSlide();
+            this.summarize();
         }
 
         /**
@@ -140,7 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$next.forEach(btn => {
                 btn.addEventListener("click", e => {
                     e.preventDefault();
-                    this.validateSlide(this.currentStep);
+                    if (this.validateSlide(this.currentStep)) {
+                        this.currentStep++;
+                        this.updateForm();
+                    }
+
                 });
             });
 
@@ -157,8 +170,15 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
         }
 
+        /**
+         * validation of each slide
+         * @param currentStep
+         * @returns {boolean}
+         */
+
         validateSlide(currentStep) {
             switch (currentStep) {
+
                 case 1: {
                     let checkedBoxes = $(this.slides[currentStep + 3]).find("input:checked");
                     if (checkedBoxes.length > 0) {
@@ -167,47 +187,93 @@ document.addEventListener("DOMContentLoaded", function () {
                         this.categories = this.categories.filter(string => {
                             return string !== "";
                         }).join(", ");
-                        this.currentStep++;
-                        this.updateForm();
+                        return true;
                     } else {
                         $(this.slides[currentStep + 3]).find(".form-error").text("Zaznacz przynajmniej jedną kategorię.");
+                        return false;
                     }
                 }
                     break;
+
                 case 2: {
                     this.bagsNo = $(this.slides[currentStep + 3]).find("input").val();
                     if (this.bagsNo > 0) {
                         $(this.slides[currentStep + 3]).find(".form-error").text("");
-                        this.currentStep++;
-                        this.updateForm();
+                        return true;
                     } else {
                         $(this.slides[currentStep + 3]).find(".form-error").text("Przygotuj minimum jeden worek.");
+                        return false;
                     }
                 }
-
                     break;
+
                 case 3: {
-                    this.institutions = $(this.slides[currentStep + 3])
+                    this.institution = $(this.slides[currentStep + 3])
                         .find("input:checked")
                         .siblings("span.description")
                         .find("div.title").text().trim();
-                    if (this.institutions !== "") {
-                        console.log(this.institutions);
+                    if (this.institution !== "") {
                         $(this.slides[currentStep + 3]).find(".form-error").text("");
-                        this.currentStep++;
-                        this.updateForm();
+                        return true;
                     } else {
                         $(this.slides[currentStep + 3]).find(".form-error").text("Wybierz instytucję, którą chcesz obdarować.");
+                        return false;
                     }
                 }
-
-                    break;
-                case 4:
-                    break;
-                case 5:
                     break;
 
+                case 4: {
+                    let street = $(this.slides[currentStep + 3]).find("#street").val();
+                    let city = $(this.slides[currentStep + 3]).find("#city").val();
+                    let zipCode = $(this.slides[currentStep + 3]).find("#zipCode").val();
+                    let date = $(this.slides[currentStep + 3]).find("#pickUpDate").val();
+                    let time = $(this.slides[currentStep + 3]).find("#pickUpTime").val();
+                    let comment = $(this.slides[currentStep + 3]).find("#pickUpComment").val();
+                    if (street !== "" && city !== "" && zipCode !== "" && date !== "" && time !== "") {
+                        this.pickUpDetails.street = street;
+                        this.pickUpDetails.city = city;
+                        this.pickUpDetails.zipCode = zipCode;
+                        this.pickUpDetails.date = date;
+                        this.pickUpDetails.time = time;
+                        if (comment !== "") {
+                            this.pickUpDetails.comment = comment;
+                        }
+                        return true;
+                    } else {
+                        $(this.slides[currentStep + 3]).find(".form-error").text("Podaj dane adresowe potrzebne do odbiory darowizny.");
+                        return false;
+                    }
+
+                }
+                    break;
             }
+        }
+
+        /**
+         * get data from inputs and show them in summary
+         * @param currentStep
+         */
+        summarize(currentStep) {
+            let summaryTextWhat;
+
+            if (this.bagsNo == 1) {
+                summaryTextWhat = `${this.bagsNo} worek z kategorii: ${this.categories}`;
+            } else {
+                summaryTextWhat = `${this.bagsNo} worki z kategorii: ${this.categories}`;
+            }
+            let summaryTextToWhere = `Dla: ${this.institution}`;
+            let summaryFirstSection = $(this.slides[currentStep + 3]).find("span.summary--text");
+            let summarySecondSection = $(this.slides[currentStep + 3]).find("div.form-section--columns li");
+            console.log("test");
+            summaryFirstSection.eq(0).text(summaryTextWhat);
+            summaryFirstSection.eq(1).text(summaryTextToWhere);
+
+            summarySecondSection.eq(0).text(this.pickUpDetails.street);
+            summarySecondSection.eq(1).text(this.pickUpDetails.city);
+            summarySecondSection.eq(2).text(this.pickUpDetails.zipCode);
+            summarySecondSection.eq(3).text(this.pickUpDetails.date);
+            summarySecondSection.eq(4).text(this.pickUpDetails.time);
+            summarySecondSection.eq(5).text(this.pickUpDetails.comment);
         }
 
         /**
@@ -217,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateForm() {
             this.$step.innerText = this.currentStep;
 
-            // TODO: Validation
+            // TODO: Validation refactor
 
             this.slides.forEach(slide => {
                 slide.classList.remove("active");
@@ -230,7 +296,9 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
             this.$step.parentElement.hidden = this.currentStep >= 5;
 
-            // TODO: get data from inputs and show them in summary
+            if (this.currentStep == 5) {
+                this.summarize(this.currentStep);
+            }
         }
 
     }
@@ -240,21 +308,4 @@ document.addEventListener("DOMContentLoaded", function () {
         new FormSteps(form);
     }
 
-    /**
-     * sticky header for index
-     */
-    window.onscroll = function () {
-        stickyFunction()
-    };
-
-    let header = document.querySelector("#stickyHeader");
-    let sticky = header.offsetTop;
-
-    function stickyFunction() {
-        if (window.pageYOffset > sticky) {
-            header.classList.add("sticky");
-        } else {
-            header.classList.remove("sticky");
-        }
-    }
 });

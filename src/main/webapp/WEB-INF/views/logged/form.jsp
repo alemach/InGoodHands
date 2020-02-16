@@ -93,7 +93,7 @@
             </div>
 
 
-            <!-- STEP 4 -->
+            <!-- STEP 3 -->
             <div data-step="3">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
                 <h4 class="form-error"><form:errors path="institution"/></h4>
@@ -116,10 +116,10 @@
                 </div>
             </div>
 
-            <!-- STEP 5 -->
+            <!-- STEP 4 -->
             <div data-step="4">
                 <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
-
+                <h4 class="form-error"><form:errors path="institution"/></h4>
                 <div class="form-section form-section--columns">
                     <div class="form-section--column">
                         <h4>Adres odbioru</h4>
@@ -168,7 +168,7 @@
                 </div>
             </div>
 
-            <!-- STEP 6 -->
+            <!-- STEP 5 -->
             <div data-step="5">
                 <h3>Podsumowanie Twojej darowizny</h3>
 
@@ -199,7 +199,7 @@
                                 <li>Prosta 51</li>
                                 <li>Warszawa</li>
                                 <li>99-098</li>
-                                <li>123 456 789</li>
+                                    <%--                                <li>123 456 789</li>--%>
                             </ul>
                         </div>
 
@@ -226,6 +226,7 @@
 <%@include file="/WEB-INF/views/footer.jsp" %>
 <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/resources/js/app.js"/>"></script>
+<script src="<c:url value="/resources/js/formApp.js"/>"></script>
 </body>
 </html>
 
