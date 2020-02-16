@@ -1,5 +1,6 @@
 package ale.mach.charity.service;
 
+import ale.mach.charity.model.Donation;
 import ale.mach.charity.repository.DonationRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,10 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public int getBagsTotalAmount() {
         return donationRepository.sumOfAllQuantity().orElse(0);
+    }
+
+    @Override
+    public void createDonation(Donation donation) {
+        donationRepository.save(donation);
     }
 }
