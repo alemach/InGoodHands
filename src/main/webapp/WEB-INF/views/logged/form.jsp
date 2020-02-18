@@ -224,7 +224,7 @@
 </section>
 
 <%@include file="/WEB-INF/views/footer.jsp" %>
-<script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"/>"></script>
+
 <script src="<c:url value="/resources/js/app.js"/>"></script>
 <script src="<c:url value="/resources/js/formApp.js"/>"></script>
 </body>

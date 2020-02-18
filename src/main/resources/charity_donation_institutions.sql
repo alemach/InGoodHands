@@ -1,0 +1,4 @@
+INSERT INTO charity_donation.institutions (id, description, name) VALUES (1, 'Cel i misja: Pomoc dzieciom z ubogich rodzin.', 'Fundacja "Dbam o Zdrowie"');
+INSERT INTO charity_donation.institutions (id, description, name) VALUES (2, 'Cel i misja: Pomoc wybudzaniu dzieci ze spiaczki.', 'Fundacja "A kogo"');
+INSERT INTO charity_donation.institutions (id, description, name) VALUES (3, 'Cel i misja: Pomoc osobom znajdujacym sie w trudnej sytuacji zyciowej.', 'Fundacja “Dla dzieci"');
+INSERT INTO charity_donation.institutions (id, description, name) VALUES (4, 'Cel i misja: Pomoc dla osob nie posiadajacych miejsca zamieszkania', 'Fundacja “Bez domu”');
