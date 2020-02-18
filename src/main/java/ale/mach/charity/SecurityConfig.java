@@ -1,6 +1,5 @@
 package ale.mach.charity;
 
-import ale.mach.charity.service.SpringDataUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("springDataUserDetailsService")
+    private UserDetailsService userDetailsService;
+
     @Autowired
-    UserDetailsService userDetailsService;
+    public void setUserDetailsService(@Qualifier("springDataUserDetailsService") UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -37,11 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SpringDataUserDetailsService customUserDetailsService() {
-        return new SpringDataUserDetailsService();
     }
 
 }
