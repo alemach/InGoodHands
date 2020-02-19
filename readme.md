@@ -22,13 +22,13 @@ Celem projektu jest stworzenie miejsca, w którym każdy będzie mógł oddać n
 - role użytkowników (ROLE_USER, ROLE_ADMIN)
 
 1. Profil administratora:
- - panel adminstracyjny
+ - panel administracyjny
  - logowanie,
  - zarządzanie (**CRUD**) administratorami,
  - zarządzanie (**CRUD**) zaufanymi instytucjami,
  - przeglądanie, edycja, usuwanie zarejestrowanych użytkowników,
  - przegląd przekazanych darów.
- -  możliwością określenia statusów darów (złożone/odebrane/przekazane)
+ - możliwość określenia statusów darów (złożone/odebrane/przekazane)
 2. Profil użytkownika:
  - rejestracja,
  - walidacja poprawnego podania dwóch identycznych haseł,
