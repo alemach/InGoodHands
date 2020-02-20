@@ -10,24 +10,32 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    public void setUserDetailsService(@Qualifier("springDataUserDetailsService") UserDetailsService userDetailsService) {
+    public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
+
+    @Autowired
+    public void setUserDetailsService(@Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/logged/**").hasAnyRole("USER", "ADMIN")
-                .and().formLogin().loginPage("/login").failureUrl("/login?error=true")
+                .antMatchers("/","/error").permitAll()
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .and().formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).failureUrl("/login?error=true")
                 .and().logout().logoutSuccessUrl("/");
     }
 
@@ -40,5 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }
