@@ -1,6 +1,5 @@
 package ale.mach.charity.controllers;
 
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,18 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/error")
-public class CustomErrorController implements ErrorController {
+//@RequestMapping("error")
+public class CustomErrorController /*implements ErrorController*/ {
 
-    @RequestMapping("")
+    @RequestMapping("/sgfsrg")
     public String error(Exception e, Model model, HttpServletRequest request) {
         model.addAttribute("exception", e);
         model.addAttribute("url", request.getRequestURL());
-        return "/error";
+        return "*error";
     }
 
-    @Override
-    public String getErrorPath() {
-        return "error";
-    }
+//    @Override
+//    public String getErrorPath() {
+//        return "error";
+//    }
 }

@@ -1,6 +1,7 @@
 package ale.mach.charity.service;
 
 import ale.mach.charity.model.User;
+import ale.mach.charity.principal.CustomPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,6 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.getRoles().forEach(role -> {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         });
-        return new org.springframework.security.core.userdetails.User(email, user.getPassword(), user.isEnabled(), true, true, true, grantedAuthorities);
+        return new CustomPrincipal(email, user.getPassword(), user.isEnabled(), true, true, true, grantedAuthorities, user);
     }
 }
