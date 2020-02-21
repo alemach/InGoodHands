@@ -41,7 +41,7 @@ public class HomeController {
     }
 
     @GetMapping("/register")
-    public String form(Model model) {
+    public String showRegisterForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "/register";
@@ -52,7 +52,7 @@ public class HomeController {
         if (result.hasErrors()) {
             return "/register";
         }
-        userService.createUser(user);
+        userService.create(user);
         return "redirect:/login";
     }
 }

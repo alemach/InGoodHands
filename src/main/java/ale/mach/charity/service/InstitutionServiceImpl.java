@@ -17,6 +17,16 @@ public class InstitutionServiceImpl implements InstitutionService {
     }
 
     @Override
+    public void createUpdate(Institution institution) {
+        institutionRepository.save(institution);
+    }
+
+    @Override
+    public void delete(int id) {
+        institutionRepository.deleteById(id);
+    }
+
+    @Override
     public List<Institution> findAll() {
         return institutionRepository.findAll();
     }
