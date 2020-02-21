@@ -20,7 +20,7 @@
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
                     <li>
-                        <form action="<c:url value="/logout"/>" method="post">
+                        <form class="link-button" action="<c:url value="/logout"/>" method="post">
                             <input class="link-button" type="submit" value="Wyloguj">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>

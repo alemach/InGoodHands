@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class SpringDataUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private UserService userService;
 
@@ -25,8 +25,6 @@ public class SpringDataUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
-        System.out.println(user.getEmail());
-        System.out.println("****************************************************************************************************************************************************");
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         user.getRoles().forEach(role -> {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));

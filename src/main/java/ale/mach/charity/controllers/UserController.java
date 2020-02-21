@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/logged")
-public class DonationController {
+@RequestMapping("/user")
+public class UserController {
 
     private final CategoryService categoryService;
     private final InstitutionService institutionService;
     private final DonationService donationService;
 
-    public DonationController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService) {
+    public UserController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.donationService = donationService;
@@ -43,12 +43,12 @@ public class DonationController {
     public String donate(Model model) {
         Donation donation = new Donation();
         model.addAttribute("donation", donation);
-        return "/logged/form";
+        return "/user/form";
     }
 
     @PostMapping("/donate")
     public String save(@ModelAttribute Donation donation) {
         donationService.createDonation(donation);
-        return "/logged/success";
+        return "/user/success";
     }
 }
