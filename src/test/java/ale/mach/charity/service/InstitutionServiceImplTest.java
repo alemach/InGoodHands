@@ -19,31 +19,31 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class InstitutionServiceImplTest {
 
-    private InstitutionRepository institutionRepository;
-    private InstitutionService institutionService;
+	private InstitutionRepository institutionRepository;
+	private InstitutionService institutionService;
 
-    @Before
-    public void setUp() {
-        institutionRepository = mock(InstitutionRepository.class);
-        institutionService = new InstitutionServiceImpl(institutionRepository);
-    }
+	@Before
+	public void setUp() {
+		institutionRepository = mock(InstitutionRepository.class);
+		institutionService = new InstitutionServiceImpl(institutionRepository);
+	}
 
-    @Test
-    public void whenGetAll_thenReturnListOfInstitutions() {
-        //given
-        int numberOfInstitutions = 5;
-        when(institutionRepository.findAll()).thenReturn(Arrays.asList(new Institution[numberOfInstitutions]));
+	@Test
+	public void whenGetAll_thenReturnListOfInstitutions() {
+		//given
+		int numberOfInstitutions = 5;
+		when(institutionRepository.findAll()).thenReturn(Arrays.asList(new Institution[numberOfInstitutions]));
 
-        //when
-        List<Institution> result = institutionService.findAll();
+		//when
+		List<Institution> result = institutionService.findAll();
 
-        //then
-        assertNotNull(result);
-        assertEquals(numberOfInstitutions, result.size());
-    }
+		//then
+		assertNotNull(result);
+		assertEquals(numberOfInstitutions, result.size());
+	}
 
-    @Test(expected = NotFoundException.class)
-    public void givenWrongId_whenFindById_thenThrowException() throws NotFoundException {
-        institutionService.findById(999);
-    }
+	@Test(expected = NotFoundException.class)
+	public void givenWrongId_whenFindById_thenThrowException() throws NotFoundException {
+		institutionService.findById(999);
+	}
 }

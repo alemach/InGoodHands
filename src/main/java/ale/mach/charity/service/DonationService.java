@@ -4,9 +4,9 @@ import ale.mach.charity.model.Donation;
 
 public interface DonationService {
 
-    int getDonationsAmount();
+	int getDonationsAmount();
 
-    int getBagsTotalAmount();
+	int getBagsTotalAmount();
 
-    void createDonation(Donation donation);
+	void createDonation(Donation donation);
 }

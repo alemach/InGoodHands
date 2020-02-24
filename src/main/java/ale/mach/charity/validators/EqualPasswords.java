@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EqualPasswordsValidator.class)
 public @interface EqualPasswords {
-    String message() default "{equalPasswords.error.message}";
+	String message() default "{equalPasswords.error.message}";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

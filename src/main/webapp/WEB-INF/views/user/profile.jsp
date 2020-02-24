@@ -14,33 +14,14 @@
 				<meta charset="UTF-8"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 				<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-				<title>Rejestracja</title>
+				<title>Profil Użytkownika</title>
 				<link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
-<%@include file="header.jsp" %>
+<%@include file="header-logged.jsp" %>
 <section class="login-page">
-				<h2>Zmień dane logowania</h2>
-				<form:form method="post" modelAttribute="user">
-								<div class="col">
-												<div class="form-group">
-																<h4 class="form-error"><form:errors path="email"/></h4>
-																<form:input type="email" path="email" placeholder="Email"/>
-												</div>
-												<div class="form-group">
-																<h4 class="form-error"><form:errors/></h4>
-																<h4 class="form-error"><form:errors path="password"/></h4>
-																<form:input type="password" path="password" placeholder="Hasło"/>
-												</div>
-												<div class="form-group">
-																<form:input type="password" path="repassword" placeholder="Powtórz hasło"/>
-												</div>
-												<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-												<div class="form-group form-group--buttons">
-																<a href="<c:url value="/login"/>" class="btn btn--without-border">Zaloguj się</a>
-																<button class="btn" type="submit">Załóż konto</button>
-												</div>
-								</div>
+				<h2>Edytuj swoje dane</h2>
+				<form:form method="post" modelAttribute="userDetailsDTO">
 								<div class="col">
 												<div class="form-group">
 																<h4 class="form-error"><form:errors path="firstName"/></h4>
@@ -67,9 +48,28 @@
 																<form:input type="text" path="zipCode" placeholder="Kod pocztowy"/>
 												</div>
 								</div>
+								<div class="col">
+																<%--            <div class="form-group">--%>
+																<%--                <h4 class="form-error"><form:errors path="email"/></h4>--%>
+																<%--                <form:input type="email" path="email" placeholder="Email"/>--%>
+																<%--            </div>--%>
+																<%--            <div class="form-group">--%>
+																<%--                <h4 class="form-error"><form:errors/></h4>--%>
+																<%--                <h4 class="form-error"><form:errors path="password"/></h4>--%>
+																<%--                <form:input type="password" path="password" value = "" placeholder="Hasło"/>--%>
+																<%--            </div>--%>
+																<%--            <div class="form-group">--%>
+																<%--                <form:input type="password" path="repassword" placeholder="Powtórz hasło"/>--%>
+																<%--            </div>--%>
+												<a href="<c:url value="/user/edit-credentials"/>" class="btn btn--without-border">Zmień email i hasło</a>
+												<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+												<div class="form-group form-group--buttons">
+																<button class="btn" type="submit">Zmień dane</button>
+												</div>
+								</div>
 				</form:form>
 </section>
-<%@include file="footer.jsp" %>
+<%@include file="/WEB-INF/views/footer.jsp" %>
 <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/resources/js/app.js"/>"></script>
 </body>

@@ -6,7 +6,7 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> findAll();
+	List<Category> findAll();
 
-    Category findById(int id) throws NotFoundException;
+	Category findById(int id) throws NotFoundException;
 }

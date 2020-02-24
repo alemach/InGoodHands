@@ -6,14 +6,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class EqualPasswordsValidator implements ConstraintValidator<EqualPasswords, User> {
-    @Override
-    public void initialize(EqualPasswords constraintAnnotation) {
+	@Override
+	public void initialize(EqualPasswords constraintAnnotation) {
 
-    }
+	}
 
-    @Override
-    public boolean isValid(User user, ConstraintValidatorContext context) {
+	@Override
+	public boolean isValid(User user, ConstraintValidatorContext context) {
 
-        return user != null && user.getPassword().equals(user.getRepassword());
-    }
+		return user != null && user.getPassword().equals(user.getRepassword());
+	}
 }

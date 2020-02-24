@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, Integer> {
 
-    int countDonationsBy();
+	int countDonationsBy();
 
-    @Query(value = "SELECT SUM(quantity) FROM donations;", nativeQuery = true)
-    Optional<Integer> sumOfAllQuantity();
+	@Query(value = "SELECT SUM(quantity) FROM donations;", nativeQuery = true)
+	Optional<Integer> sumOfAllQuantity();
 }

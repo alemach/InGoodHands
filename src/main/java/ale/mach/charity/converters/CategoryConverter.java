@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryConverter implements Converter<Integer, Category> {
 
-    private final CategoryService categoryService;
+	private final CategoryService categoryService;
 
-    public CategoryConverter(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+	public CategoryConverter(CategoryService categoryService) {
+		this.categoryService = categoryService;
+	}
 
-    @SneakyThrows
-    @Override
-    public Category convert(Integer id) {
-        return categoryService.findById(id);
-    }
+	@SneakyThrows
+	@Override
+	public Category convert(Integer id) {
+		return categoryService.findById(id);
+	}
 }

@@ -16,32 +16,31 @@ import static org.junit.Assert.assertEquals;
 @DataJpaTest
 public class CategoryRepositoryTest {
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+	@Autowired
+	CategoryRepository categoryRepository;
+	@Autowired
+	private TestEntityManager testEntityManager;
 
-    @Autowired
-    CategoryRepository categoryRepository;
+	@Test
+	public void givenCategoryId_whenFindById_thenReturnCategory() {
+		//given
+		int categoryId = 1;
+		Category category = new Category();
+		category.setName("clothing");
+		testEntityManager.persist(category);
+		//when
+		Category testCategory = categoryRepository.findById(categoryId).get();
+		//then
+		assertEquals(category, testCategory);
+	}
 
-    @Test
-    public void givenCategoryId_whenFindById_thenReturnCategory() {
-        //given
-        int categoryId = 1;
-        Category category = new Category();
-        category.setName("clothing");
-        testEntityManager.persist(category);
-        //when
-        Category testCategory = categoryRepository.findById(categoryId).get();
-        //then
-        assertEquals(category, testCategory);
-    }
+	@Test(expected = NoSuchElementException.class)
+	public void givenNoCategory_whenFindById_thenThrowNoSuchElement() {
+		//given
+		int categoryId = 1;
+		//when
+		Category testCategory = categoryRepository.findById(categoryId).get();
+		//then
 
-    @Test(expected = NoSuchElementException.class)
-    public void givenNoCategory_whenFindById_thenThrowNoSuchElement() {
-        //given
-        int categoryId = 1;
-        //when
-        Category testCategory = categoryRepository.findById(categoryId).get();
-        //then
-
-    }
+	}
 }
