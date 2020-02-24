@@ -10,6 +10,7 @@ import ale.mach.charity.service.CategoryService;
 import ale.mach.charity.service.DonationService;
 import ale.mach.charity.service.InstitutionService;
 import ale.mach.charity.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.naming.AuthenticationException;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -59,8 +61,16 @@ public class UserController {
 	}
 
 	@PostMapping("/donate")
-	public String save(@ModelAttribute Donation donation) {
-		donationService.createDonation(donation);
+	public String create(@Valid Donation donation, BindingResult result) {
+		if (result.hasErrors()) {
+			return "/user/form";
+		}
+		try {
+			donationService.createDonation(donation);
+		} catch (NotFoundException e) {
+			result.reject(e.getLocalizedMessage());
+			return "/user/form";
+		}
 		return "/user/success";
 	}
 
@@ -102,5 +112,15 @@ public class UserController {
 
 		}
 		return "redirect:/login";
+	}
+
+	@GetMapping("/donations")
+	public String showDonations(@RequestParam(required = false) String direction, String sortedBy, Model model) {
+		model.addAttribute("donations", donationService.findAllByLoggedUser(direction, sortedBy));
+		if (direction == null) {
+			direction = "asc";
+		}
+		model.addAttribute("direction", direction);
+		return "/user/donation-list-user";
 	}
 }

@@ -1,8 +1,10 @@
 package ale.mach.charity.controllers;
 
+import ale.mach.charity.model.DonationStatus;
 import ale.mach.charity.model.Institution;
 import ale.mach.charity.principal.CustomPrincipal;
 import ale.mach.charity.service.DonationService;
+import ale.mach.charity.service.DonationStatusService;
 import ale.mach.charity.service.InstitutionService;
 import ale.mach.charity.service.RoleService;
 import ale.mach.charity.service.UserService;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -25,12 +29,19 @@ public class AdminController {
 	private final RoleService roleService;
 	private final InstitutionService institutionService;
 	private final DonationService donationService;
+	private final DonationStatusService donationStatusService;
 
-	public AdminController(UserService userService, RoleService roleService, InstitutionService institutionService, DonationService donationService) {
+	public AdminController(UserService userService, RoleService roleService, InstitutionService institutionService, DonationService donationService, DonationStatusService donationStatusService) {
 		this.userService = userService;
 		this.roleService = roleService;
 		this.institutionService = institutionService;
 		this.donationService = donationService;
+		this.donationStatusService = donationStatusService;
+	}
+
+	@ModelAttribute("donationStatuses")
+	public List<DonationStatus> donationStatuses() {
+		return donationStatusService.findAll();
 	}
 
 	@GetMapping("/dashboard")
@@ -89,7 +100,17 @@ public class AdminController {
 
 	@GetMapping("/donations")
 	public String showDonations(Model model) {
-		model.addAttribute("donations", donationService.getDonationsAmount());
-		return "/admin/donation-list";
+		model.addAttribute("donations", donationService.findAll());
+		return "/admin/donation-list-admin";
+	}
+
+	@PostMapping("/donations")
+	public String changeStatus(@RequestParam int donationId, @RequestParam int statusId, Model model) {
+		try {
+			donationService.updateStatus(donationId, statusId);
+		} catch (NotFoundException e) {
+			model.addAttribute("error", e.getLocalizedMessage());
+		}
+		return "redirect:/admin/donations";
 	}
 }

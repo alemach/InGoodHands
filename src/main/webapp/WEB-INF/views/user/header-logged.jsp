@@ -19,7 +19,7 @@
 																Witaj <sec:authentication property="principal.myUserName"/>
 																<ul class="dropdown">
 																				<li><a href="<c:url value="/user/edit"/>">Profil</a></li>
-																				<li><a href="#">Moje zbiórki</a></li>
+																				<li><a href="<c:url value="/user/donations"/>">Moje darowizny</a></li>
 																				<li>
 																								<form class="link-button" action="<c:url value="/logout"/>" method="post">
 																												<input class="link-button" type="submit" value="Wyloguj">
