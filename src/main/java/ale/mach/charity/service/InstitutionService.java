@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface InstitutionService {
 
-    void createUpdate(Institution institution);
+	void createUpdate(Institution institution);
 
-    void delete(int id);
+	void delete(int id);
 
-    List<Institution> findAll();
+	List<Institution> findAll();
 
-    Institution findById(int id) throws NotFoundException;
+	Institution findById(int id) throws NotFoundException;
 }

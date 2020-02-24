@@ -10,30 +10,30 @@ import java.util.List;
 
 @Service
 public class InstitutionServiceImpl implements InstitutionService {
-    private final InstitutionRepository institutionRepository;
+	private final InstitutionRepository institutionRepository;
 
-    public InstitutionServiceImpl(InstitutionRepository institutionRepository) {
-        this.institutionRepository = institutionRepository;
-    }
+	public InstitutionServiceImpl(InstitutionRepository institutionRepository) {
+		this.institutionRepository = institutionRepository;
+	}
 
-    @Override
-    public void createUpdate(Institution institution) {
-        institutionRepository.save(institution);
-    }
+	@Override
+	public void createUpdate(Institution institution) {
+		institutionRepository.save(institution);
+	}
 
-    @Override
-    public void delete(int id) {
-        institutionRepository.deleteById(id);
-    }
+	@Override
+	public void delete(int id) {
+		institutionRepository.deleteById(id);
+	}
 
-    @Override
-    public List<Institution> findAll() {
-        return institutionRepository.findAll();
-    }
+	@Override
+	public List<Institution> findAll() {
+		return institutionRepository.findAll();
+	}
 
-    @SneakyThrows
-    @Override
-    public Institution findById(int id) {
-        return institutionRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Institution with id = " + id + "does not exist"));
-    }
+	@SneakyThrows
+	@Override
+	public Institution findById(int id) {
+		return institutionRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Institution with id = " + id + "does not exist"));
+	}
 }

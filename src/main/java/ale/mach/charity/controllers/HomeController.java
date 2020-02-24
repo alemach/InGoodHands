@@ -17,42 +17,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
-    private final InstitutionService institutionService;
-    private final DonationService donationService;
-    private final UserService userService;
+	private final InstitutionService institutionService;
+	private final DonationService donationService;
+	private final UserService userService;
 
-    public HomeController(InstitutionService institutionService, DonationService donationService, UserService userService) {
-        this.institutionService = institutionService;
-        this.donationService = donationService;
-        this.userService = userService;
-    }
+	public HomeController(InstitutionService institutionService, DonationService donationService, UserService userService) {
+		this.institutionService = institutionService;
+		this.donationService = donationService;
+		this.userService = userService;
+	}
 
-    @RequestMapping("")
-    public String homeAction(Model model) {
-        model.addAttribute("institutions", institutionService.findAll());
-        model.addAttribute("donationsAmount", donationService.getDonationsAmount());
-        model.addAttribute("bagsAmount", donationService.getBagsTotalAmount());
-        return "/index";
-    }
+	@RequestMapping("")
+	public String homeAction(Model model) {
+		model.addAttribute("institutions", institutionService.findAll());
+		model.addAttribute("donationsAmount", donationService.getDonationsAmount());
+		model.addAttribute("bagsAmount", donationService.getBagsTotalAmount());
+		return "/index";
+	}
 
-    @GetMapping("/login")
-    public String login() {
-        return "/login";
-    }
+	@GetMapping("/login")
+	public String login() {
+		return "/login";
+	}
 
-    @GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "/register";
-    }
+	@GetMapping("/register")
+	public String showRegisterForm(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		return "/register";
+	}
 
-    @PostMapping("/register")
-    public String register(@Validated User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "/register";
-        }
-        userService.create(user);
-        return "redirect:/login";
-    }
+	@PostMapping("/register")
+	public String register(@Validated User user, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "/register";
+		}
+		userService.create(user);
+		return "redirect:/login";
+	}
 }

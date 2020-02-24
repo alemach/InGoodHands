@@ -26,38 +26,38 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = HomeController.class)
 public class HomeControllerTest {
-    private static final String HOME_VIEW = "/index";
-    private MockMvc mockMvc;
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-    @MockBean
-    private DonationService donationService;
-    @MockBean
-    private InstitutionService institutionService;
-    private final int DONATIONS_AMOUNT = 5;
-    private final int BAGS_AMOUNT = 13;
+	private static final String HOME_VIEW = "/index";
+	private final int DONATIONS_AMOUNT = 5;
+	private final int BAGS_AMOUNT = 13;
+	private MockMvc mockMvc;
+	@Autowired
+	private WebApplicationContext webApplicationContext;
+	@MockBean
+	private DonationService donationService;
+	@MockBean
+	private InstitutionService institutionService;
 
-    @Before
-    public void setUp() {
-        mockMvc = webAppContextSetup(webApplicationContext).build();
+	@Before
+	public void setUp() {
+		mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        List<Institution> institutionList = Arrays.asList(new Institution[3]);
-        when(this.institutionService.findAll()).thenReturn(institutionList);
+		List<Institution> institutionList = Arrays.asList(new Institution[3]);
+		when(this.institutionService.findAll()).thenReturn(institutionList);
 
-        when(this.donationService.getDonationsAmount()).thenReturn(DONATIONS_AMOUNT);
+		when(this.donationService.getDonationsAmount()).thenReturn(DONATIONS_AMOUNT);
 
-        when(this.donationService.getBagsTotalAmount()).thenReturn(BAGS_AMOUNT);
-    }
+		when(this.donationService.getBagsTotalAmount()).thenReturn(BAGS_AMOUNT);
+	}
 
-    @Test
-    public void homeAction() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(model().attributeExists("institutions"))
-                .andExpect(model().attribute("institutions", hasSize(3)))
-                .andExpect(model().attributeExists("donationsAmount"))
-                .andExpect(model().attribute("donationsAmount", DONATIONS_AMOUNT))
-                .andExpect(model().attributeExists("bagsAmount"))
-                .andExpect(model().attribute("bagsAmount", BAGS_AMOUNT))
-                .andExpect(MockMvcResultMatchers.view().name(HOME_VIEW));
-    }
+	@Test
+	public void homeAction() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/"))
+				.andExpect(model().attributeExists("institutions"))
+				.andExpect(model().attribute("institutions", hasSize(3)))
+				.andExpect(model().attributeExists("donationsAmount"))
+				.andExpect(model().attribute("donationsAmount", DONATIONS_AMOUNT))
+				.andExpect(model().attributeExists("bagsAmount"))
+				.andExpect(model().attribute("bagsAmount", BAGS_AMOUNT))
+				.andExpect(MockMvcResultMatchers.view().name(HOME_VIEW));
+	}
 }

@@ -16,39 +16,39 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsService userDetailsService;
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+	private UserDetailsService userDetailsService;
+	private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Autowired
-    public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-    }
+	@Autowired
+	public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler authenticationSuccessHandler) {
+		this.authenticationSuccessHandler = authenticationSuccessHandler;
+	}
 
-    @Autowired
-    public void setUserDetailsService(@Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+	@Autowired
+	public void setUserDetailsService(@Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/", "/error").permitAll()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).failureUrl("/login?error=true")
-                .and().logout().logoutSuccessUrl("/");
-    }
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity
+				.authorizeRequests()
+				.antMatchers("/", "/error").permitAll()
+				.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.and().formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).failureUrl("/login?error=true")
+				.and().logout().logoutSuccessUrl("/");
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+	}
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 
 }

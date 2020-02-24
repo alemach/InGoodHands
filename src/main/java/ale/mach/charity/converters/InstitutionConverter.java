@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class InstitutionConverter implements Converter<Integer, Institution> {
 
-    private final InstitutionService institutionService;
+	private final InstitutionService institutionService;
 
-    public InstitutionConverter(InstitutionService institutionService) {
-        this.institutionService = institutionService;
-    }
+	public InstitutionConverter(InstitutionService institutionService) {
+		this.institutionService = institutionService;
+	}
 
-    @SneakyThrows(NotFoundException.class)
-    @Override
-    public Institution convert(Integer id) {
-        return institutionService.findById(id);
-    }
+	@SneakyThrows(NotFoundException.class)
+	@Override
+	public Institution convert(Integer id) {
+		return institutionService.findById(id);
+	}
 }

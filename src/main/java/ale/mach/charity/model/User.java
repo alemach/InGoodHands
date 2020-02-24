@@ -27,28 +27,28 @@ import java.util.Set;
 @EqualPasswords
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String firstName;
-    private String lastName;
-    private int phone;
-    private String street;
-    private String city;
-    private String zipCode;
-    @Column(nullable = false, unique = true)
-    @Email
-    @NotBlank
-    @UniqueEmail
-    private String email;
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")
-    @NotBlank
-    private String password;
-    @Transient
-    private String repassword;
-    private boolean enabled = true;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String firstName;
+	private String lastName;
+	private Integer phone;
+	private String street;
+	private String city;
+	private String zipCode;
+	@Column(nullable = false, unique = true)
+	@Email
+	@NotBlank
+	@UniqueEmail
+	private String email;
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")
+	@NotBlank
+	private String password;
+	@Transient
+	private String repassword;
+	private boolean enabled = true;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
 
 }

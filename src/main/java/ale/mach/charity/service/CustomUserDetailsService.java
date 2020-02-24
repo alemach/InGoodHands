@@ -16,20 +16,20 @@ import java.util.Set;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserService userService;
+	private UserService userService;
 
-    @Autowired
-    public void setUserRepository(UserService userService) {
-        this.userService = userService;
-    }
+	@Autowired
+	public void setUserRepository(UserService userService) {
+		this.userService = userService;
+	}
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        user.getRoles().forEach(role -> {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
-        return new CustomPrincipal(email, user.getPassword(), user.isEnabled(), true, true, true, grantedAuthorities, user);
-    }
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userService.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+		user.getRoles().forEach(role -> {
+			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+		});
+		return new CustomPrincipal(email, user.getPassword(), user.isEnabled(), true, true, true, grantedAuthorities, user);
+	}
 }

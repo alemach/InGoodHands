@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 //@RequestMapping("error")
 public class CustomErrorController /*implements ErrorController*/ {
 
-    @RequestMapping("/sgfsrg")
-    public String error(Exception e, Model model, HttpServletRequest request) {
-        model.addAttribute("exception", e);
-        model.addAttribute("url", request.getRequestURL());
-        return "*error";
-    }
+	@RequestMapping("/sgfsrg")
+	public String error(Exception e, Model model, HttpServletRequest request) {
+		model.addAttribute("exception", e);
+		model.addAttribute("url", request.getRequestURL());
+		return "*error";
+	}
 
 //    @Override
 //    public String getErrorPath() {

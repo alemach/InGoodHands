@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Error</title>
+				<title>Error</title>
 </head>
 <body>
 error<br>
@@ -19,7 +19,7 @@ Failed URL: ${url}<br>
 Exception: ${exception.message}<br>
 <hr>
 <c:forEach items="${exception.stackTrace}" var="ste">
-    ${ste}<br>
+				${ste}<br>
 </c:forEach>
 </body>
 </html>

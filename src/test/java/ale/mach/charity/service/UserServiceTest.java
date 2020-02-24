@@ -14,21 +14,21 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class UserServiceTest {
 
-    @Autowired
-    private UserRepository userRepository;
-    private final String EMAIL = "user@users.com";
+	private final String EMAIL = "user@users.com";
+	@Autowired
+	private UserRepository userRepository;
 
-    @Test
-    public void findByEmail() {
-        User user = new User();
-        user.setFirstName("user");
-        user.setEmail(EMAIL);
-        user.setPassword("password");
-        userRepository.save(user);
-        assertTrue(userRepository.findByEmail(EMAIL).isPresent());
-    }
+	@Test
+	public void findByEmail() {
+		User user = new User();
+		user.setFirstName("user");
+		user.setEmail(EMAIL);
+		user.setPassword("password");
+		userRepository.save(user);
+		assertTrue(userRepository.findByEmail(EMAIL).isPresent());
+	}
 
-    @Test
-    public void createUser() {
-    }
+	@Test
+	public void createUser() {
+	}
 }
