@@ -61,7 +61,7 @@
 																								<c:when test="${role.name == 'ROLE_ADMIN'}">Administrator</c:when>
 																				</c:choose>
 																				<c:if test="${!index.last}">
-																								,&nbsp
+																								,&nbsp;
 																				</c:if>
 																</c:forEach>
 												</td>

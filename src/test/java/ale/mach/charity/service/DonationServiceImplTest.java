@@ -18,12 +18,13 @@ public class DonationServiceImplTest {
 	private final int NUMBER_OF_DONATIONS = 5;
 	private final int NUMBER_OF_BAGS_PER_DONATION = 2;
 	private DonationService donationService;
+	private DonationStatusService donationStatusService;
 	@Mock
 	private DonationRepository donationRepository;
 
 	@Before
 	public void setUp() throws Exception {
-		donationService = new DonationServiceImpl(donationRepository);
+		donationService = new DonationServiceImpl(donationRepository, donationStatusService);
 	}
 
 	@Test

@@ -49,7 +49,15 @@
 												<!-- STEP 1: class .active is switching steps -->
 												<div data-step="1" class="active">
 																<h3>Zaznacz co chcesz oddać:</h3>
-																<h4 class="form-error"><form:errors path="categories"/></h4>
+																<h4 class="form-error"><form:errors/></h4>
+																<h4 class="form-error"><form:errors path="quantity"/></h4>
+																<h4 class="form-error"><form:errors path="institution"/></h4>
+																<h4 class="form-error"><form:errors path="street"/></h4>
+																<h4 class="form-error"><form:errors path="city"/></h4>
+																<h4 class="form-error"><form:errors path="zipCode"/></h4>
+																<h4 class="form-error"><form:errors path="pickUpDate"/></h4>
+																<h4 class="form-error"><form:errors path="pickUpTime"/></h4>
+
 																<c:forEach items="${categories}" var="category">
 
 																				<div class="form-group form-group--checkbox">
@@ -114,20 +122,22 @@
 												<!-- STEP 4 -->
 												<div data-step="4">
 																<h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
-																<h4 class="form-error"><form:errors path="institution"/></h4>
 																<div class="form-section form-section--columns">
 																				<div class="form-section--column">
 																								<h4>Adres odbioru</h4>
 																								<div class="form-group form-group--inline">
+																												<h4 class="form-error"><form:errors path="street"/></h4>
 																												<label> Ulica <form:input path="street"/> </label>
 																								</div>
 
 																								<div class="form-group form-group--inline">
+																												<h4 class="form-error"><form:errors path="city"/></h4>
 																												<label> Miasto <form:input path="city"/></label>
 																								</div>
 
 																								<div class="form-group form-group--inline">
 																												<label>
+																																<h4 class="form-error"><form:errors path="zipCode"/></h4>
 																																Kod pocztowy <form:input path="zipCode"/>
 																												</label>
 																								</div>
@@ -142,10 +152,12 @@
 																				<div class="form-section--column">
 																								<h4>Termin odbioru</h4>
 																								<div class="form-group form-group--inline">
+																												<h4 class="form-error"><form:errors path="pickUpDate"/></h4>
 																												<label> Data <form:input type="date" path="pickUpDate"/> </label>
 																								</div>
 
 																								<div class="form-group form-group--inline">
+																												<h4 class="form-error"><form:errors path="pickUpTime"/></h4>
 																												<label> Godzina <form:input path="pickUpTime" type="time"/> </label>
 																								</div>
 
