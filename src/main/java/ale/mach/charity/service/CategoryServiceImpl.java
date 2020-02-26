@@ -23,6 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category findById(int id) throws NotFoundException {
-		return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Category with id = " + id + "does not exist"));
+		return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Invalid id. Category with id = " + id + "does not exist")); //TODO message;
 	}
 }

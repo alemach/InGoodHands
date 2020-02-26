@@ -2,6 +2,8 @@ package ale.mach.charity.service;
 
 import ale.mach.charity.model.Role;
 import ale.mach.charity.model.User;
+import ale.mach.charity.model.VerificationToken;
+import ale.mach.charity.pojo.PasswordDTO;
 import ale.mach.charity.pojo.UserDetailsDTO;
 import ale.mach.charity.principal.CustomPrincipal;
 import ale.mach.charity.repository.RoleRepository;
@@ -13,10 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,11 +28,50 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final EmailService emailService;
+	private final VerificationTokenService verificationTokenService;
 
-	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService, VerificationTokenService verificationTokenService) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.emailService = emailService;
+		this.verificationTokenService = verificationTokenService;
+	}
+
+	@Override
+	public void sendPasswordResetLink(String email) throws NotFoundException {
+		Optional<User> user = userRepository.findByEmail(email);
+		if (user.isPresent()) {
+
+			VerificationToken verificationToken = verificationTokenService.findByUser(user.get());
+			verificationToken.setToken(UUID.randomUUID().toString());
+			verificationToken.seNewExpires();
+			verificationTokenService.create(verificationToken);
+
+			String subject = "Resetowanie hasła do konta na portalu \"Oddam w dobre ręce\"";
+			String text = String.format(
+					"W celu zmiany hasła do konta proszę kliknąć na poniższy link:%n" +
+					"http://localhost:8080/change-password?token=%s", verificationToken.getToken());
+
+			emailService.sendSimpleMessage(user.get().getEmail(), subject, text);
+		} else {
+			throw new NotFoundException("invalid.email.user.not.found.error.message");
+		}
+	}
+
+	@Override
+	public void updatePassword(PasswordDTO passwordDTO) throws Exception {
+		VerificationToken verificationToken = verificationTokenService.findByToken(passwordDTO.getToken());
+
+		if (LocalDateTime.now().isBefore(verificationToken.getExpires())) {
+			User user = verificationToken.getUser();
+			user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
+			userRepository.save(user);
+
+		} else {
+			throw new Exception("token.expiration.error.message");
+		}
 	}
 
 	@Override
@@ -67,10 +110,41 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void create(User user) {
+
+		VerificationToken verificationToken = new VerificationToken();
+		verificationToken.setToken(UUID.randomUUID().toString());
+		verificationToken.setUser(user);
+
+		String subject = "Potwierdzenie rejestracji nowego konta na portalu \"Oddam w dobre ręce\"";
+		String text = String.format(
+				"Dziękujemy za zarejestrowanie nowego konta na portalu \"Oddam w dobre ręce\".%n" +
+				"W celu aktywacji konta proszę kliknąć na poniższy link:%n" +
+				"http://localhost:8080/verify-email?token=%s"
+				, verificationToken.getToken());
+
+		emailService.sendSimpleMessage(user.getEmail(), subject, text);
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setEnabled(true);
+		user.setEnabled(false);
 		user.setRoles(new HashSet<Role>(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
 		userRepository.save(user);
+
+		verificationTokenService.create(verificationToken);
+	}
+
+	@Override
+	public void activateAccount(String token) throws Exception {
+
+		VerificationToken verificationToken = verificationTokenService.findByToken(token);
+
+		if (LocalDateTime.now().isBefore(verificationToken.getExpires())) {
+			User user = verificationToken.getUser();
+			user.setEnabled(true);
+			userRepository.save(user);
+
+		} else {
+			throw new Exception("token.expiration.error.message");
+		}
 	}
 
 	@Override
@@ -110,4 +184,5 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
 	}
+
 }

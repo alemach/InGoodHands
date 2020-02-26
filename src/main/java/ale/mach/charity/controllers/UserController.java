@@ -4,6 +4,7 @@ import ale.mach.charity.model.Category;
 import ale.mach.charity.model.Donation;
 import ale.mach.charity.model.Institution;
 import ale.mach.charity.model.User;
+import ale.mach.charity.pojo.MessageDTO;
 import ale.mach.charity.pojo.UserDetailsDTO;
 import ale.mach.charity.principal.CustomPrincipal;
 import ale.mach.charity.service.CategoryService;
@@ -41,6 +42,10 @@ public class UserController {
 		this.institutionService = institutionService;
 		this.donationService = donationService;
 		this.userService = userService;
+	}
+	@ModelAttribute("messageDTO")
+	public MessageDTO addMessageDTO(){
+		return new MessageDTO();
 	}
 
 	@ModelAttribute("categories")
