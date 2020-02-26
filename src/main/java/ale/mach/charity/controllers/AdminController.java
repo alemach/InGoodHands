@@ -2,6 +2,7 @@ package ale.mach.charity.controllers;
 
 import ale.mach.charity.model.DonationStatus;
 import ale.mach.charity.model.Institution;
+import ale.mach.charity.pojo.MessageDTO;
 import ale.mach.charity.principal.CustomPrincipal;
 import ale.mach.charity.service.DonationService;
 import ale.mach.charity.service.DonationStatusService;
@@ -37,6 +38,10 @@ public class AdminController {
 		this.institutionService = institutionService;
 		this.donationService = donationService;
 		this.donationStatusService = donationStatusService;
+	}
+	@ModelAttribute("messageDTO")
+	public MessageDTO addMessageDTO(){
+		return new MessageDTO();
 	}
 
 	@ModelAttribute("donationStatuses")

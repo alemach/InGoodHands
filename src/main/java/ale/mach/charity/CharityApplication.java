@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
@@ -27,5 +28,12 @@ public class CharityApplication {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setValidationMessageSource(messageSource());
 		return bean;
+	}
+	@Bean
+	public SimpleMailMessage templateSimpleMessage() {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setText(
+				"Wiadomość od: %s %s%n Wiadmość:%n%s");
+		return message;
 	}
 }

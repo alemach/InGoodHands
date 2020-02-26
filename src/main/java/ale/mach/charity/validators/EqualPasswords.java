@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EqualPasswordsValidator.class)
+@Constraint(validatedBy = {EqualPasswordsValidator.class, EqualPasswordsDTOValidator.class})
 public @interface EqualPasswords {
 	String message() default "{equalPasswords.error.message}";
 

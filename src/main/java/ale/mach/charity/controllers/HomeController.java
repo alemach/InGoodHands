@@ -1,6 +1,7 @@
 package ale.mach.charity.controllers;
 
 import ale.mach.charity.model.User;
+import ale.mach.charity.pojo.MessageDTO;
 import ale.mach.charity.service.DonationService;
 import ale.mach.charity.service.InstitutionService;
 import ale.mach.charity.service.UserService;
@@ -9,8 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -25,6 +30,10 @@ public class HomeController {
 		this.institutionService = institutionService;
 		this.donationService = donationService;
 		this.userService = userService;
+	}
+	@ModelAttribute("messageDTO")
+	public MessageDTO addMessageDTO(){
+		return new MessageDTO();
 	}
 
 	@RequestMapping("")
